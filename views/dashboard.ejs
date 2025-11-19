@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | Nutri-Genie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans text-gray-800">
+
+    <div class="bg-gradient-to-r from-teal-600 to-emerald-800 text-white py-12 shadow-lg relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-white opacity-10 blur-3xl"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                
+                <div class="mb-6 md:mb-0 md:w-1/2">
+                    <h1 class="text-5xl font-extrabold mb-4 tracking-tight">
+                        👋 Welcome Back!
+                    </h1>
+                    <p class="opacity-90 text-xl leading-relaxed mb-6">
+                        You have tracked <strong><%= plans.length %></strong> health plans. 
+                        <br>Consistency is the key to progress.
+                    </p>
+                    <a href="/new" class="inline-block bg-white text-teal-700 hover:bg-gray-100 font-bold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
+                        <i class="fas fa-plus"></i> Create New Plan
+                    </a>
+                </div>
+
+                <div class="md:w-1/3 flex justify-center md:justify-end">
+                    <svg class="w-64 h-64 text-emerald-300 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor" class="opacity-50"></path>
+                        <path d="M12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23" stroke="white" stroke-width="2"></path>
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-10 -mt-8 relative z-20"> 
+        
+        <% if (plans.length === 0) { %>
+            <div class="glass rounded-xl p-12 text-center shadow-lg max-w-2xl mx-auto mt-4">
+                
+                <div class="flex justify-center mb-6">
+                    <svg class="w-48 h-48 text-teal-200" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" class="opacity-20"/> 
+                        <path d="M12,22 L12,14 C12,14 8,12 8,8 C8,5 12,2 12,2 C12,2 16,5 16,8 C16,12 12,14 12,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-teal-600"/>
+                        <path d="M12,14 L12,22 M8,14 C6,12 6,9 8,7 M16,14 C18,12 18,9 16,7" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="text-teal-500"/>
+                    </svg>
+                </div>
+
+                <h2 class="text-3xl font-bold text-gray-700 mb-3">Start Your Health Journey</h2>
+                <p class="text-gray-500 mb-8 text-lg">Your dashboard is waiting for your first personalized plan.</p>
+                
+                <a href="/" class="inline-flex items-center bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
+                    <i class="fas fa-magic mr-2"></i> Generate First Plan
+                </a>
+            </div>
+        <% } %>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% plans.forEach(plan => { %>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 flex flex-col">
+                    
+                    <div class="bg-teal-50 p-4 border-b border-teal-100 flex justify-between items-start">
+                        <div>
+                            <span class="text-xs font-bold text-teal-600 uppercase tracking-wider">
+                                <%= new Date(plan.createdAt).toLocaleDateString() %>
+                            </span>
+                            <h3 class="text-lg font-bold text-gray-800 mt-1 leading-tight"><%= plan.goal %></h3>
+                        </div>
+                        <span class="text-2xl">🥗</span>
+                    </div>
+
+                    <div class="p-6 flex-grow">
+                        <div class="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                            <div class="flex items-center gap-1"><i class="fas fa-user"></i> <%= plan.age %>y</div>
+                            <div class="flex items-center gap-1"><i class="fas fa-weight"></i> <%= plan.weight %>kg</div>
+                            <div class="flex items-center gap-1"><i class="fas fa-ruler-vertical"></i> <%= plan.height %>cm</div>
+                        </div>
+                        <p class="text-gray-500 text-sm italic">"<%= plan.activity %>"</p>
+                    </div>
+
+                    <div class="p-4 bg-gray-50 border-t border-gray-100">
+                        <form action="/delete-plan" method="POST" onsubmit="return confirm('Are you sure you want to delete this plan?');">
+                            <input type="hidden" name="planId" value="<%= plan._id %>">
+                            
+                            <button type="submit" class="w-full text-red-500 hover:text-white hover:bg-red-500 font-semibold py-2 px-4 rounded border border-red-200 hover:border-transparent transition duration-300 flex items-center justify-center gap-2">
+                                <i class="fas fa-trash-alt"></i> Delete Plan
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            <% }) %>
+        </div>
+
+    </div>
+
+</body>
+</html>
